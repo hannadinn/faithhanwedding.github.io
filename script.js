@@ -25,15 +25,13 @@ window.onload = function() {
                 piece.dataset.row = row;
                 piece.dataset.col = col;
 
-                // Randomize the initial position
+                // Set random initial position
                 piece.style.position = 'absolute';
                 piece.style.left = Math.random() * (window.innerWidth - pieceWidth) + 'px';
                 piece.style.top = Math.random() * (window.innerHeight - pieceHeight) + 'px';
 
                 // Add mouse event listeners for dragging
                 piece.addEventListener('mousedown', dragStart);
-                document.addEventListener('mouseup', dragEnd);
-
                 puzzleContainer.appendChild(piece);
             }
         }
@@ -46,21 +44,23 @@ window.onload = function() {
     function dragStart(e) {
         draggedPiece = this;
 
-        // Capture the difference between mouse click and the top-left corner of the piece
-        offsetX = e.clientX - draggedPiece.getBoundingClientRect().left;
-        offsetY = e.clientY - draggedPiece.getBoundingClientRect().top;
+        // Calculate the cursor's offset relative to the puzzle piece
+        const rect = draggedPiece.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
 
-        // Bring the piece on top of others during dragging
-        draggedPiece.style.zIndex = 1000;
-
-        // Add mousemove listener to move the piece
+        // Move the piece during drag
         document.addEventListener('mousemove', dragMove);
+        document.addEventListener('mouseup', dragEnd);
     }
 
     function dragMove(e) {
         if (!draggedPiece) return;
 
-        // Move the piece directly following the mouse, minus the initial offset
+        // Prevent default text selection
+        e.preventDefault();
+
+        // Update the piece's position as the cursor moves
         draggedPiece.style.left = (e.clientX - offsetX) + 'px';
         draggedPiece.style.top = (e.clientY - offsetY) + 'px';
     }
@@ -68,9 +68,7 @@ window.onload = function() {
     function dragEnd(e) {
         if (!draggedPiece) return;
 
-        // Drop the piece and reset zIndex
-        draggedPiece.style.zIndex = 1;
-
+        // Snap the piece to the grid
         const rect = puzzleContainer.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -78,19 +76,18 @@ window.onload = function() {
         const gridX = Math.floor(x / pieceWidth);
         const gridY = Math.floor(y / pieceHeight);
 
-        // Snap the piece to the grid if it's within bounds
         if (gridX >= 0 && gridX < cols && gridY >= 0 && gridY < rows) {
             draggedPiece.style.left = gridX * pieceWidth + 'px';
             draggedPiece.style.top = gridY * pieceHeight + 'px';
 
-            // Check if it's in the correct position
             if (gridX == draggedPiece.dataset.col && gridY == draggedPiece.dataset.row) {
-                draggedPiece.draggable = false; // Disable further dragging if it's in place
+                draggedPiece.draggable = false; // Lock piece if correct
             }
         }
 
-        // Remove the mousemove listener to stop moving the piece
+        // Remove event listeners when drag is finished
         document.removeEventListener('mousemove', dragMove);
+        document.removeEventListener('mouseup', dragEnd);
         draggedPiece = null;
     }
 };
