@@ -46,9 +46,8 @@ window.onload = function() {
         draggedPiece = this;
         
         // Get the initial offset of the cursor relative to the piece
-        const rect = draggedPiece.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
+        offsetX = e.clientX - draggedPiece.getBoundingClientRect().left;
+        offsetY = e.clientY - draggedPiece.getBoundingClientRect().top;
 
         // Add mousemove listener to move the piece
         document.addEventListener('mousemove', dragMove);
