@@ -1,6 +1,6 @@
 window.onload = function() {
     const puzzleContainer = document.getElementById('puzzle-container');
-    const imageSrc = 'Postcard Photo.jpg'; // Path to your image file
+    const imageSrc = './Postcard Photo.jpg'; // Path to your image file
 
     // Puzzle grid dimensions
     const rows = 3;
