@@ -57,6 +57,9 @@ window.onload = function() {
     function dragMove(e) {
         if (!draggedPiece) return;
 
+        // Prevent text selection during drag
+        e.preventDefault();
+
         // Set the new position of the piece relative to the mouse position
         draggedPiece.style.left = (e.clientX - offsetX) + 'px';
         draggedPiece.style.top = (e.clientY - offsetY) + 'px';
