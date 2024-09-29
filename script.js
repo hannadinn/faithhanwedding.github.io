@@ -26,6 +26,7 @@ window.onload = function() {
                 piece.dataset.col = col;
 
                 // Randomize the initial position
+                piece.style.position = 'absolute';
                 piece.style.left = Math.random() * (window.innerWidth - pieceWidth) + 'px';
                 piece.style.top = Math.random() * (window.innerHeight - pieceHeight) + 'px';
 
@@ -44,10 +45,13 @@ window.onload = function() {
 
     function dragStart(e) {
         draggedPiece = this;
-        
-        // Get the initial offset of the cursor relative to the piece
+
+        // Capture the difference between mouse click and the top-left corner of the piece
         offsetX = e.clientX - draggedPiece.getBoundingClientRect().left;
         offsetY = e.clientY - draggedPiece.getBoundingClientRect().top;
+
+        // Bring the piece on top of others during dragging
+        draggedPiece.style.zIndex = 1000;
 
         // Add mousemove listener to move the piece
         document.addEventListener('mousemove', dragMove);
@@ -56,16 +60,16 @@ window.onload = function() {
     function dragMove(e) {
         if (!draggedPiece) return;
 
-        // Prevent text selection during drag
-        e.preventDefault();
-
-        // Set the new position of the piece relative to the mouse position
+        // Move the piece directly following the mouse, minus the initial offset
         draggedPiece.style.left = (e.clientX - offsetX) + 'px';
         draggedPiece.style.top = (e.clientY - offsetY) + 'px';
     }
 
     function dragEnd(e) {
         if (!draggedPiece) return;
+
+        // Drop the piece and reset zIndex
+        draggedPiece.style.zIndex = 1;
 
         const rect = puzzleContainer.getBoundingClientRect();
         const x = e.clientX - rect.left;
