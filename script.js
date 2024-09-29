@@ -30,62 +30,64 @@ window.onload = function() {
                 piece.style.left = Math.random() * (window.innerWidth - pieceWidth) + 'px';
                 piece.style.top = Math.random() * (window.innerHeight - pieceHeight) + 'px';
 
-                // Enable draggable attribute for HTML5 drag-and-drop
-                piece.setAttribute('draggable', true);
-
-                // Add event listeners for drag-and-drop behavior
-                piece.addEventListener('dragstart', handleDragStart);
-                piece.addEventListener('dragend', handleDragEnd);
-                piece.addEventListener('dragover', handleDragOver);
-                piece.addEventListener('dragenter', handleDragEnter);
-                piece.addEventListener('dragleave', handleDragLeave);
-                piece.addEventListener('drop', handleDrop);
-
+                // Add mouse event listeners for dragging
+                piece.addEventListener('mousedown', dragStart);
                 puzzleContainer.appendChild(piece);
             }
         }
     }
 
-    function handleDragStart(e) {
-        this.style.opacity = '0.4'; // Make the piece semi-transparent while dragging
-        e.dataTransfer.setData('text/plain', this.dataset.row + ',' + this.dataset.col); // Pass row and column as data
-    }
+    let draggedPiece = null;
+    let offsetX = 0;
+    let offsetY = 0;
 
-    function handleDragEnd(e) {
-        this.style.opacity = '1'; // Reset the piece's opacity after drag
+    function dragStart(e) {
+        draggedPiece = this;
 
-        // Reset highlighting on all pieces
-        const items = document.querySelectorAll('.puzzle-piece');
-        items.forEach(item => item.classList.remove('over'));
-    }
+        // Get the position of the mouse relative to the piece
+        const rect = draggedPiece.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
 
-    function handleDragOver(e) {
-        e.preventDefault(); // Necessary for the drop to be allowed
-        return false;
-    }
+        // Set up the move and release event listeners
+        document.addEventListener('mousemove', dragMove);
+        document.addEventListener('mouseup', dragEnd);
 
-    function handleDragEnter(e) {
-        this.classList.add('over'); // Optional: Add a highlight to show drag-over status
-    }
-
-    function handleDragLeave(e) {
-        this.classList.remove('over'); // Remove the highlight when leaving a drop zone
-    }
-
-    function handleDrop(e) {
+        // Prevent text selection
         e.preventDefault();
-        e.stopPropagation();
+    }
 
-        const [draggedRow, draggedCol] = e.dataTransfer.getData('text/plain').split(',');
+    function dragMove(e) {
+        if (!draggedPiece) return;
 
-        // Reposition the dragged piece to the drop zone location
-        const draggedPiece = document.querySelector(
-            `.puzzle-piece[data-row='${draggedRow}'][data-col='${draggedCol}']`
-        );
+        // Calculate new position based on mouse position and offset
+        draggedPiece.style.left = (e.clientX - offsetX) + 'px';
+        draggedPiece.style.top = (e.clientY - offsetY) + 'px';
+    }
 
-        draggedPiece.style.left = e.clientX - (pieceWidth / 2) + 'px';
-        draggedPiece.style.top = e.clientY - (pieceHeight / 2) + 'px';
+    function dragEnd(e) {
+        if (!draggedPiece) return;
 
-        return false;
+        // Snap the piece to the grid
+        const rect = puzzleContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const gridX = Math.floor(x / pieceWidth);
+        const gridY = Math.floor(y / pieceHeight);
+
+        if (gridX >= 0 && gridX < cols && gridY >= 0 && gridY < rows) {
+            draggedPiece.style.left = gridX * pieceWidth + 'px';
+            draggedPiece.style.top = gridY * pieceHeight + 'px';
+
+            if (gridX == draggedPiece.dataset.col && gridY == draggedPiece.dataset.row) {
+                draggedPiece.draggable = false; // Lock piece if in place
+            }
+        }
+
+        // Clean up event listeners
+        document.removeEventListener('mousemove', dragMove);
+        document.removeEventListener('mouseup', dragEnd);
+        draggedPiece = null;
     }
 };
