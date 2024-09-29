@@ -30,64 +30,62 @@ window.onload = function() {
                 piece.style.left = Math.random() * (window.innerWidth - pieceWidth) + 'px';
                 piece.style.top = Math.random() * (window.innerHeight - pieceHeight) + 'px';
 
-                // Add mouse event listeners for dragging
-                piece.addEventListener('mousedown', dragStart);
+                // Enable draggable attribute for HTML5 drag-and-drop
+                piece.setAttribute('draggable', true);
+
+                // Add event listeners for drag-and-drop behavior
+                piece.addEventListener('dragstart', handleDragStart);
+                piece.addEventListener('dragend', handleDragEnd);
+                piece.addEventListener('dragover', handleDragOver);
+                piece.addEventListener('dragenter', handleDragEnter);
+                piece.addEventListener('dragleave', handleDragLeave);
+                piece.addEventListener('drop', handleDrop);
+
                 puzzleContainer.appendChild(piece);
             }
         }
     }
 
-    let draggedPiece = null;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    function dragStart(e) {
-        draggedPiece = this;
-
-        // Calculate the cursor's offset relative to the puzzle piece
-        const rect = draggedPiece.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-
-        // Move the piece during drag
-        document.addEventListener('mousemove', dragMove);
-        document.addEventListener('mouseup', dragEnd);
+    function handleDragStart(e) {
+        this.style.opacity = '0.4'; // Make the piece semi-transparent while dragging
+        e.dataTransfer.setData('text/plain', this.dataset.row + ',' + this.dataset.col); // Pass row and column as data
     }
 
-    function dragMove(e) {
-        if (!draggedPiece) return;
+    function handleDragEnd(e) {
+        this.style.opacity = '1'; // Reset the piece's opacity after drag
 
-        // Prevent default text selection
+        // Reset highlighting on all pieces
+        const items = document.querySelectorAll('.puzzle-piece');
+        items.forEach(item => item.classList.remove('over'));
+    }
+
+    function handleDragOver(e) {
+        e.preventDefault(); // Necessary for the drop to be allowed
+        return false;
+    }
+
+    function handleDragEnter(e) {
+        this.classList.add('over'); // Optional: Add a highlight to show drag-over status
+    }
+
+    function handleDragLeave(e) {
+        this.classList.remove('over'); // Remove the highlight when leaving a drop zone
+    }
+
+    function handleDrop(e) {
         e.preventDefault();
+        e.stopPropagation();
 
-        // Update the piece's position as the cursor moves
-        draggedPiece.style.left = (e.clientX - offsetX) + 'px';
-        draggedPiece.style.top = (e.clientY - offsetY) + 'px';
-    }
+        const [draggedRow, draggedCol] = e.dataTransfer.getData('text/plain').split(',');
 
-    function dragEnd(e) {
-        if (!draggedPiece) return;
+        // Reposition the dragged piece to the drop zone location
+        const draggedPiece = document.querySelector(
+            `.puzzle-piece[data-row='${draggedRow}'][data-col='${draggedCol}']`
+        );
 
-        // Snap the piece to the grid
-        const rect = puzzleContainer.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        draggedPiece.style.left = e.clientX - (pieceWidth / 2) + 'px';
+        draggedPiece.style.top = e.clientY - (pieceHeight / 2) + 'px';
 
-        const gridX = Math.floor(x / pieceWidth);
-        const gridY = Math.floor(y / pieceHeight);
-
-        if (gridX >= 0 && gridX < cols && gridY >= 0 && gridY < rows) {
-            draggedPiece.style.left = gridX * pieceWidth + 'px';
-            draggedPiece.style.top = gridY * pieceHeight + 'px';
-
-            if (gridX == draggedPiece.dataset.col && gridY == draggedPiece.dataset.row) {
-                draggedPiece.draggable = false; // Lock piece if correct
-            }
-        }
-
-        // Remove event listeners when drag is finished
-        document.removeEventListener('mousemove', dragMove);
-        document.removeEventListener('mouseup', dragEnd);
-        draggedPiece = null;
+        return false;
     }
 };
