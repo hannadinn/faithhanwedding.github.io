@@ -1,8 +1,13 @@
 window.onload = function() {
   
     var currentStage = 1;
+    const correctImageNumbers = {
+        "stage1": "1",
+        "stage2": "3",
+        "stage3": "4",
+        "stage4": "2"
+    }
     var images = document.getElementsByClassName('image');
-    // var result = document.getElementById('result');
     var bgId = "bgimage";
   
     // Attach click event handlers to all images
@@ -10,19 +15,19 @@ window.onload = function() {
       images[i].addEventListener('click', function() {
         
         var filePath = this.src;
-        if (currentStage === 1 && filePath.includes("1.jpg")) {
+        if (currentStage === 1 && filePath.includes(correctImageNumbers.stage1 + ".jpg")) {
           triggerChangeImage(currentStage);
         }
 
-        if (currentStage === 2 && filePath.includes("3.jpg")) {
+        if (currentStage === 2 && filePath.includes(correctImageNumbers.stage2 + ".jpg")) {
           triggerChangeImage(currentStage)
         }
 
-        if (currentStage === 3 && filePath.includes("4.jpg")) {
+        if (currentStage === 3 && filePath.includes(correctImageNumbers.stage3 + ".jpg")) {
           triggerChangeImage(currentStage)
         }
 
-        if (currentStage === 4 && filePath.includes("2.jpg")) {
+        if (currentStage === 4 && filePath.includes(correctImageNumbers.stage4 + ".jpg")) {
             triggerChangeImage(currentStage)
           }
       });
@@ -77,15 +82,5 @@ window.onload = function() {
         document.getElementById("title").innerHTML = "😴🤤";
       }
     }
-
-    // function showAnswerByColumn(num) {
-    //   var columnId = "result" + num;
-    //   var answerElement = document.getElementById(columnId);
-    //   answerElement.style.visibility = "visible";
-    // }
-
-    // function onPlay() {
-    //   document.getElementById("bgimage").style.display = "none";
-    // }
   };
   
