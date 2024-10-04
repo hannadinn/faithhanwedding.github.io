@@ -10,7 +10,8 @@
   
     .bg-image {
       position: relative;
-      background-image: url("stage1/image3.jpg");
+      /* set 1st bg image */
+      background-image: url("stage1/image1.jpg");
       height: 100%;
       width: 100%;
       background-position: center;

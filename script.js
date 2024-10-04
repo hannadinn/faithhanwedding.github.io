@@ -17,7 +17,6 @@ window.onload = function() {
         
         var filePath = this.src;
         if (currentStage === 1 && filePath.includes(correctImageNumbers.stage1 + ".jpg")) {
-            console.log(correctImageNumbers.stage1 + ".jpg");
           triggerChangeImage(currentStage);
         }
 
