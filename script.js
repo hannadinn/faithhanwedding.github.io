@@ -9,6 +9,9 @@ window.onload = function() {
     }
     var images = document.getElementsByClassName('image');
     var bgId = "bgimage";
+    console.log(correctImageNumbers.stage1);
+    console.log(correctImageNumbers["stage" + "1"]);
+
   
     // Attach click event handlers to all images
     for (var i = 0; i < images.length; i++) {
@@ -45,7 +48,7 @@ window.onload = function() {
     function changeImages(stage) {
       var newStage = stage + 1;
       if (currentStage <= 4) {
-        for (let index = 1; index < 10; index++) {
+        for (let index = 1; index < 5; index++) {
           var imageId = "image" + index;
           var newImageSrc = "stage" + newStage + "/image" + index + ".jpg";
           document.getElementById(imageId).src = newImageSrc;
