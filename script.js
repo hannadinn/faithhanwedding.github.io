@@ -6,11 +6,9 @@ window.onload = function() {
         "stage2": "3",
         "stage3": "4",
         "stage4": "2"
-    }
+    };
     var images = document.getElementsByClassName('image');
     var bgId = "bgimage";
-    console.log(correctImageNumbers.stage1);
-    console.log(correctImageNumbers["stage" + "1"]);
 
   
     // Attach click event handlers to all images
@@ -19,19 +17,20 @@ window.onload = function() {
         
         var filePath = this.src;
         if (currentStage === 1 && filePath.includes(correctImageNumbers.stage1 + ".jpg")) {
+            console.log(correctImageNumbers.stage1 + ".jpg");
           triggerChangeImage(currentStage);
         }
 
         if (currentStage === 2 && filePath.includes(correctImageNumbers.stage2 + ".jpg")) {
-          triggerChangeImage(currentStage)
+          triggerChangeImage(currentStage);
         }
 
         if (currentStage === 3 && filePath.includes(correctImageNumbers.stage3 + ".jpg")) {
-          triggerChangeImage(currentStage)
+          triggerChangeImage(currentStage);
         }
 
         if (currentStage === 4 && filePath.includes(correctImageNumbers.stage4 + ".jpg")) {
-            triggerChangeImage(currentStage)
+            triggerChangeImage(currentStage);
           }
       });
     }
