@@ -50,7 +50,7 @@ window.onload = function() {
           var newImageSrc = "stage" + newStage + "/image" + index + ".jpg";
           document.getElementById(imageId).src = newImageSrc;
         }
-        var newBgImagePath = 'url(' + "stage" + newStage + "/image" + (newStage*3) + ".jpg)";
+        var newBgImagePath = 'url(' + "stage" + newStage + "/image" + correctImageNumbers["stage" + newStage] + ".jpg)";
         document.getElementById(bgId).style.backgroundImage = newBgImagePath;
       }
       document.getElementById("blur").classList.remove("unblurTransition");
