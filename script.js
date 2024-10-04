@@ -57,28 +57,6 @@ window.onload = function() {
       document.getElementById("blur").classList.remove("unblurTransition");
       document.getElementById("blur").style.backdropFilter = "blur(8px)";
       document.getElementById("content-container").style.visibility = "visible";
-    //   if (currentStage == 2) {
-    //     showAnswerByColumn(2);
-    //     showAnswerByColumn(3);
-    //     document.getElementById("title").innerHTML = "🎄🎄";
-    //   }
-    //   if (currentStage == 3) {
-    //     showAnswerByColumn(4);
-    //     showAnswerByColumn(6);
-    //     document.getElementById("title").innerHTML = "😴🤤";
-    //   }
-    //   if (currentStage == 4) {
-    //     showAnswerByColumn(1);
-    //     showAnswerByColumn(5);
-    //     var emojiArray = ["😍","🥰", "💓", "🥳", "👰", "👸", "🦊", "🌷", "🍉", "🍙", "🍜", "🥟", "🦀", "🌞", "🎉", "🎊", "💍", "👜", "📸", "♍"];
-    //     var emojiLine = "";
-    //     while (emojiArray.length > 0 ) {
-    //       var rand = emojiArray[(Math.random() * emojiArray.length) | 0];
-    //       emojiLine += rand;
-    //       emojiArray = emojiArray.filter(item => item != rand);
-    //     }
-    //     document.getElementById("title").innerHTML = emojiLine;
-    //   }
       if (currentStage == 5) {
         document.getElementById("title").innerHTML = "😴🤤";
       }
