@@ -2,78 +2,66 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  
-    h1 {
-        text-align: center;
-    }
-  
-    .bg-image {
-      position: relative;
-      /* set 1st bg image */
-      background-image: url("stage1/image1.jpg");
-      height: 100%;
-      width: 100%;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-  
-    .blur {
-      background: rgba(255, 255, 255, 0.2);
-      height: 100%;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-  
-    .unblurTransition {
-      -webkit-transition-duration: 4s;
-      -moz-transition-duration: 4s;
-      -o-transition-duration: 4s;
-      transition-duration: 4s;
-    }
-    
-    #image-container {
-      width: 100%;
-      margin: 0 auto;
-    }
-    
+}
+
+h1 {
+    text-align: center;
+    padding: 20px; /* Add some spacing around the heading */
+}
+
+.bg-image {
+    position: relative;
+    background-image: url("stage1/image1.jpg");
+    height: 100vh; /* Full viewport height */
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.blur {
+    background: rgba(255, 255, 255, 0.2);
+    height: 100%;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#image-container {
+    width: 100%; /* Allow image container to take full width */
+    display: flex;
+    justify-content: center;
+}
+
+.stage {
+    display: grid;
+    grid-gap: 10px; /* Adds space between images */
+    grid-template-columns: repeat(2, 1fr); /* Two images per row */
+    width: 100%; /* Set the grid to 100% width */
+    max-width: 1200px; /* Set a max width for larger screens */
+    margin: 0 auto; /* Center the grid on larger screens */
+}
+
+.image {
+    cursor: pointer;
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Ensures square shape */
+    object-fit: cover; /* Ensures the image fits within the square container */
+    border: 2px solid gray;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile Responsive */
+@media only screen and (max-width: 768px) {
     .stage {
-      display: grid;
-      grid-gap: 10px;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
+        width: 100%; /* Ensure stage container takes full width on small screens */
     }
-    
+
     .image {
-      cursor: pointer;
-      width: 100%;
-      max-width: 100%;
-      height: auto;
-      border: 2px solid gray;
-      display: block;
-      width: 180px;
-      height: 180px;
-      overflow: hidden;
-      -webkit-border-radius: 180px;
-      -moz-border-radius: 180px;
-      -ms-border-radius: 180px;
-      -o-border-radius: 180px;
-      border-radius: 180px;
-      position: relative; 
-      margin: 0px auto;
-      text-align: center;
-      margin-bottom: 10px;
-      border: 3px solid #FFF;
-      -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3),inset 0px 3px 8px rgba(0, 0, 0, 0.3);
-      -moz-box-shadow: 0px 1px 2px rgba(0,0,0,0.3),inset 0px 3px 8px rgba(0,0,0,0.3);
-      box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3),inset 0px 3px 8px rgba(0, 0, 0, 0.3);
+        width: 100%; /* Each image fills its container width */
+        margin: 0; /* Remove margin to allow images to stretch */
     }
-    
-    .selected {
-      border-color: blue;
-    }
-  
-    .title {
-      font-size: 100px;
-    }
+}
