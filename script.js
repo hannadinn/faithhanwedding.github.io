@@ -1,93 +1,91 @@
 window.onload = function() {
-    const puzzleContainer = document.getElementById('puzzle-container');
-    const imageSrc = './images/Postcard Photo.jpg'; // Updated image path
-
-    const img = new Image();
-    img.src = imageSrc;
-
-    img.onload = function() {
-        createPuzzlePieces(img);
-    };
-
-    const rows = 3;
-    const cols = 3;
-    const pieceWidth = 100;
-    const pieceHeight = 100;
-
-    function createPuzzlePieces(image) {
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-                const piece = document.createElement('div');
-                piece.classList.add('puzzle-piece');
-                piece.style.backgroundImage = `url(${image.src})`;
-                piece.style.backgroundPosition = `-${col * pieceWidth}px -${row * pieceHeight}px`;
-                piece.style.backgroundSize = '300px 300px';
-                piece.dataset.row = row;
-                piece.dataset.col = col;
-
-                // Set random initial position
-                piece.style.position = 'absolute';
-                piece.style.left = Math.random() * (window.innerWidth - pieceWidth) + 'px';
-                piece.style.top = Math.random() * (window.innerHeight - pieceHeight) + 'px';
-
-                // Add mouse event listeners for dragging
-                piece.addEventListener('mousedown', dragStart);
-                puzzleContainer.appendChild(piece);
-            }
-        }
-    }
-
-    let draggedPiece = null;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    function dragStart(e) {
-        draggedPiece = this;
-
-        // Get the position of the mouse relative to the piece
-        const rect = draggedPiece.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-
-        // Set up the move and release event listeners
-        document.addEventListener('mousemove', dragMove);
-        document.addEventListener('mouseup', dragEnd);
-
-        // Prevent text selection
-        e.preventDefault();
-    }
-
-    function dragMove(e) {
-        if (!draggedPiece) return;
-
-        // Calculate new position based on mouse position and offset
-        draggedPiece.style.left = (e.clientX - offsetX) + 'px';
-        draggedPiece.style.top = (e.clientY - offsetY) + 'px';
-    }
-
-    function dragEnd(e) {
-        if (!draggedPiece) return;
-
-        // Snap the piece to the grid
-        const rect = puzzleContainer.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const gridX = Math.floor(x / pieceWidth);
-        const gridY = Math.floor(y / pieceHeight);
-
-        if (gridX >= 0 && gridX < cols && gridY >= 0 && gridY < rows) {
-            draggedPiece.style.left = gridX * pieceWidth + 'px';
-            draggedPiece.style.top = gridY * pieceHeight + 'px';
-
-            if (gridX == draggedPiece.dataset.col && gridY == draggedPiece.dataset.row) {
-                draggedPiece.draggable = false; // Lock piece if in place
-            }
+  
+    var currentStage = 1;
+    var images = document.getElementsByClassName('image');
+    // var result = document.getElementById('result');
+    var bgId = "bgimage";
+  
+    // Attach click event handlers to all images
+    for (var i = 0; i < images.length; i++) {
+      images[i].addEventListener('click', function() {
+        
+        var filePath = this.src;
+        if (currentStage === 1 && filePath.includes("1.jpg")) {
+          triggerChangeImage(currentStage);
         }
 
-        // Clean up event listeners
-        document.removeEventListener('mousemove', dragMove);
-        document.removeEventListener('mouseup', dragEnd);
-        draggedPiece = null;
+        if (currentStage === 2 && filePath.includes("3.jpg")) {
+          triggerChangeImage(currentStage)
+        }
+
+        if (currentStage === 3 && filePath.includes("4.jpg")) {
+          triggerChangeImage(currentStage)
+        }
+
+        if (currentStage === 4 && filePath.includes("2.jpg")) {
+            triggerChangeImage(currentStage)
+          }
+      });
     }
-};
+
+    function triggerChangeImage(stage) {
+      currentStage = 0;
+      document.getElementById("content-container").style.visibility = "hidden";
+      document.getElementById("blur").classList.add("unblurTransition");
+      document.getElementById("blur").style.backdropFilter = "none";
+      setTimeout(() => changeImages(stage), 4000);
+      currentStage = stage + 1; 
+    }
+
+    function changeImages(stage) {
+      var newStage = stage + 1;
+      if (currentStage <= 4) {
+        for (let index = 1; index < 10; index++) {
+          var imageId = "image" + index;
+          var newImageSrc = "stage" + newStage + "/image" + index + ".jpg";
+          document.getElementById(imageId).src = newImageSrc;
+        }
+        var newBgImagePath = 'url(' + "stage" + newStage + "/image" + (newStage*3) + ".jpg)";
+        document.getElementById(bgId).style.backgroundImage = newBgImagePath;
+      }
+      document.getElementById("blur").classList.remove("unblurTransition");
+      document.getElementById("blur").style.backdropFilter = "blur(8px)";
+      document.getElementById("content-container").style.visibility = "visible";
+    //   if (currentStage == 2) {
+    //     showAnswerByColumn(2);
+    //     showAnswerByColumn(3);
+    //     document.getElementById("title").innerHTML = "🎄🎄";
+    //   }
+    //   if (currentStage == 3) {
+    //     showAnswerByColumn(4);
+    //     showAnswerByColumn(6);
+    //     document.getElementById("title").innerHTML = "😴🤤";
+    //   }
+    //   if (currentStage == 4) {
+    //     showAnswerByColumn(1);
+    //     showAnswerByColumn(5);
+    //     var emojiArray = ["😍","🥰", "💓", "🥳", "👰", "👸", "🦊", "🌷", "🍉", "🍙", "🍜", "🥟", "🦀", "🌞", "🎉", "🎊", "💍", "👜", "📸", "♍"];
+    //     var emojiLine = "";
+    //     while (emojiArray.length > 0 ) {
+    //       var rand = emojiArray[(Math.random() * emojiArray.length) | 0];
+    //       emojiLine += rand;
+    //       emojiArray = emojiArray.filter(item => item != rand);
+    //     }
+    //     document.getElementById("title").innerHTML = emojiLine;
+    //   }
+      if (currentStage == 5) {
+        document.getElementById("title").innerHTML = "😴🤤";
+      }
+    }
+
+    // function showAnswerByColumn(num) {
+    //   var columnId = "result" + num;
+    //   var answerElement = document.getElementById(columnId);
+    //   answerElement.style.visibility = "visible";
+    // }
+
+    // function onPlay() {
+    //   document.getElementById("bgimage").style.display = "none";
+    // }
+  };
+  

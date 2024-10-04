@@ -1,16 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jigsaw Puzzle</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Pre-RSVP Website</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <div id="puzzle-container">
-        <!-- Puzzle pieces will be dynamically inserted here -->
-    </div>
+  <div class="bg-image" id="bgimage">
+    <div class="blur" id="blur">
+      <div id="content-container">
+        <h1 class="title" id="title">🧧🧨</h1>
 
-    <script src="script.js"></script>
+        <div id="image-container">
+          <div class="stage">
+            <img src="stage1/image1.jpg" class="image" id="image1">
+            <img src="stage1/image2.jpg" class="image" id="image2">
+            <img src="stage1/image3.jpg" class="image" id="image3">
+            <img src="stage1/image4.jpg" class="image" id="image4">
+          </div>
+        </div>
+
+        <!-- <div class="result-row">
+          <p class="result" id="result1">0</p>
+          <p class="result" id="result2">6</p>
+          <p class="result" id="result3">0</p>
+          <p class="result" id="result4">6</p>
+          <p class="result" id="result5">2</p>
+          <p class="result" id="result6">1</p>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
