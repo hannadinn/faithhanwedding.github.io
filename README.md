@@ -11,9 +11,9 @@ TODO:
 - Setup voting page (stage 5)
 -- pictures
 -- redirect after vote (in 3 seconds)
-- current picture layout
--- borders
--- reselect images
+//- current picture layout
+//-- borders
+//-- reselect images
 - setup server
 -- heroku?
 -- need to be able to store responses for votes (server + DB setup)

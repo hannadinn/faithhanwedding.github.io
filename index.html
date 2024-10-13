@@ -6,6 +6,25 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+  <div id="instructions-bar" class="instructions-bar">Instructions</div>
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <h2>Instructions</h2>
+      <p>Click on the correct picture to progress to the next stage.</p>
+      <button id="ok-button">OK</button>
+      <button id="skip-button">Skip</button>
+    </div>
+  </div>
+  
+  <div class="font-controls" id="screen-font-controls">
+    <svg id="increase-font-screen" class="font-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 5v14M5 12h14"/>
+    </svg>
+    <svg id="decrease-font-screen" class="font-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14"/>
+    </svg>
+  </div>
+  
   <div class="bg-image" id="bgimage">
     <div class="blur" id="blur">
       <div id="content-container">
