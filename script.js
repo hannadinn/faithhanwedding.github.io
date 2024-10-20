@@ -78,16 +78,15 @@ window.onload = function() {
 
     // Function to show the popup with a custom message and a flag for final state
     function showPopup(message, final = false) {
-        // Update the popup title based on the selected language
-        popup.querySelector('h2').textContent = translations[selectedLanguage].instructionsHeader;
-
-        // If it's the final popup after completing the game
         if (final) {
+            // Update the h2 element with emojis and the congratulatory message
+            popup.querySelector('h2').textContent = "🥳🎊🤵‍♂️👰‍♀️🎊🥳";
+    
             popup.querySelector('p').textContent = translations[selectedLanguage].redirecting;
-
+    
             // Remove existing buttons and create a new one
             popup.querySelectorAll('button').forEach(button => button.remove());
-
+    
             var proceedButton = document.createElement('button');
             proceedButton.textContent = translations[selectedLanguage].proceed;
             proceedButton.onclick = function() {
@@ -95,18 +94,20 @@ window.onload = function() {
                 window.location.href = redirectURL;
             };
             popup.querySelector('.popup-content').appendChild(proceedButton);
-
+    
             // Automatically redirect after 5 seconds
             setTimeout(function() {
                 proceedButton.disabled = true; // Ensure the button is disabled before auto-redirect
                 window.location.href = redirectURL;
             }, 5000);
         } else {
+            // For other popups, use the standard header
+            popup.querySelector('h2').textContent = translations[selectedLanguage].instructionsHeader;
             popup.querySelector('p').textContent = message;
-            body.style.pointerEvents = "auto"; // Disable interactions with the rest of the page
+            body.style.pointerEvents = "none"; // Disable interactions with the rest of the page
             popup.style.pointerEvents = "auto"; // Allow interaction with the popup
         }
-
+    
         popup.style.visibility = "visible";
     }
     
