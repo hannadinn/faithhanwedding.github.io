@@ -2,8 +2,8 @@
 
 TODO:
 - Popup window for instructions
--- Include language selection
--- Choose to skip
+//-- Include language selection
+//-- Choose to skip
 -- Skip if localstorage already has certain value for website (cookies, idk)
 - Beautify text
 -- Change text content (based on pictures with both of us?)
